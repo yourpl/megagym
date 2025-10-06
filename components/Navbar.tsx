@@ -10,13 +10,13 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center gap-10">
-            <a href="#home" className="text-sm text-gray-300 hover:text-white transition-colors">
+            <a href="/" className="text-sm text-gray-300 hover:text-white transition-colors">
               Home
             </a>
-            <a href="#about" className="text-sm text-gray-300 hover:text-white transition-colors">
+            <a href="/#about" className="text-sm text-gray-300 hover:text-white transition-colors">
               About
             </a>
-            <a href="#pricing" className="text-sm text-gray-300 hover:text-white transition-colors">
+            <a href="/pricing" className="text-sm text-gray-300 hover:text-white transition-colors">
               Pricing
             </a>
             <a href="#contact" className="text-sm text-gray-300 hover:text-white transition-colors">
