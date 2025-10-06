@@ -15,15 +15,15 @@ export default function Navbar() {
             <Link href="/" className="text-sm text-gray-300 hover:text-white transition-colors">
               Home
             </Link>
-            <a href="/#about" className="text-sm text-gray-300 hover:text-white transition-colors">
+            <Link href="/#about" className="text-sm text-gray-300 hover:text-white transition-colors">
               About
-            </a>
+            </Link>
             <Link href="/pricing" className="text-sm text-gray-300 hover:text-white transition-colors">
               Pricing
             </Link>
-            <a href="#contact" className="text-sm text-gray-300 hover:text-white transition-colors">
+            <Link href="#contact" className="text-sm text-gray-300 hover:text-white transition-colors">
               Contact
-            </a>
+            </Link>
           </div>
 
           <div className="flex items-center gap-4">
