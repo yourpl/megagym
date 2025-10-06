@@ -1,42 +1,38 @@
 export default function Hero() {
   return (
     <section className="min-h-screen flex items-center justify-center px-6 pt-20">
-      <div className="max-w-7xl mx-auto text-center">
-        <div className="backdrop-blur-md bg-white/5 border border-white/20 rounded-3xl p-12 md:p-16 shadow-2xl">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-            Transform Your
-            <span className="block bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Body & Mind
-            </span>
-          </h1>
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-6xl md:text-8xl font-bold text-white mb-8 tracking-tight">
+          Elite Fitness.<br />
+          Professional Results.
+        </h1>
 
-          <p className="text-xl md:text-2xl text-white/80 mb-10 max-w-3xl mx-auto">
-            Join the ultimate fitness experience with state-of-the-art equipment,
-            expert trainers, and a community that pushes you to be your best.
-          </p>
+        <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl">
+          State-of-the-art facilities, certified trainers, and proven methodologies
+          designed for serious athletes and fitness professionals.
+        </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all shadow-lg hover:shadow-xl hover:scale-105">
-              Start Free Trial
-            </button>
-            <button className="backdrop-blur-md bg-white/10 hover:bg-white/20 border border-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all">
-              View Plans
-            </button>
+        <div className="flex flex-col sm:flex-row gap-4 mb-24">
+          <button className="bg-white text-black px-8 py-4 text-sm font-medium hover:bg-gray-200 transition-colors">
+            Start Training
+          </button>
+          <button className="border border-white/20 text-white px-8 py-4 text-sm font-medium hover:bg-white/5 transition-colors">
+            View Facilities
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-white/10 pt-12">
+          <div>
+            <div className="text-5xl font-bold text-white mb-2">500+</div>
+            <div className="text-sm text-gray-400 uppercase tracking-wider">Active Members</div>
           </div>
-
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="backdrop-blur-sm bg-white/5 border border-white/20 rounded-2xl p-6">
-              <div className="text-4xl font-bold text-white mb-2">500+</div>
-              <div className="text-white/70">Active Members</div>
-            </div>
-            <div className="backdrop-blur-sm bg-white/5 border border-white/20 rounded-2xl p-6">
-              <div className="text-4xl font-bold text-white mb-2">50+</div>
-              <div className="text-white/70">Expert Trainers</div>
-            </div>
-            <div className="backdrop-blur-sm bg-white/5 border border-white/20 rounded-2xl p-6">
-              <div className="text-4xl font-bold text-white mb-2">24/7</div>
-              <div className="text-white/70">Open Access</div>
-            </div>
+          <div>
+            <div className="text-5xl font-bold text-white mb-2">50+</div>
+            <div className="text-sm text-gray-400 uppercase tracking-wider">Certified Trainers</div>
+          </div>
+          <div>
+            <div className="text-5xl font-bold text-white mb-2">24/7</div>
+            <div className="text-sm text-gray-400 uppercase tracking-wider">Access Available</div>
           </div>
         </div>
       </div>
