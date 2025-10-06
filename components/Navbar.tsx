@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export default function Navbar() {
   return (
     <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-black/80 backdrop-blur-sm">
@@ -10,15 +12,15 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center gap-10">
-            <a href="/" className="text-sm text-gray-300 hover:text-white transition-colors">
+            <Link href="/" className="text-sm text-gray-300 hover:text-white transition-colors">
               Home
-            </a>
+            </Link>
             <a href="/#about" className="text-sm text-gray-300 hover:text-white transition-colors">
               About
             </a>
-            <a href="/pricing" className="text-sm text-gray-300 hover:text-white transition-colors">
+            <Link href="/pricing" className="text-sm text-gray-300 hover:text-white transition-colors">
               Pricing
-            </a>
+            </Link>
             <a href="#contact" className="text-sm text-gray-300 hover:text-white transition-colors">
               Contact
             </a>
