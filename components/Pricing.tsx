@@ -62,10 +62,10 @@ export default function Pricing() {
             <div
               key={plan.name}
               className={`border ${
-                plan.popular ? "border-orange-400" : "border-white/10"
+                plan.popular ? "border-[#FFC700]" : "border-white/10"
               } bg-gradient-to-b from-white/5 to-transparent rounded-lg overflow-hidden relative`}
             >
-              <div className={`${plan.popular ? 'bg-gradient-to-r from-orange-500 to-orange-400' : 'bg-gradient-to-r from-orange-500 to-orange-400'} p-6`}>
+              <div className="bg-[#FFC700] p-6">
                 <h3 className="text-2xl font-bold text-black uppercase tracking-wide">{plan.name}</h3>
               </div>
 
@@ -105,8 +105,8 @@ export default function Pricing() {
                 <button
                   className={`w-full py-4 text-sm font-bold uppercase tracking-wide transition-colors rounded-md ${
                     plan.popular
-                      ? "bg-gradient-to-r from-orange-500 to-orange-400 text-black hover:from-orange-600 hover:to-orange-500"
-                      : "border-2 border-orange-400 text-orange-400 hover:bg-orange-400 hover:text-black"
+                      ? "bg-[#FFC700] text-black hover:bg-[#FFD700]"
+                      : "border-2 border-[#FFC700] text-[#FFC700] hover:bg-[#FFC700] hover:text-black"
                   }`}
                 >
                   Comenzar
@@ -119,7 +119,7 @@ export default function Pricing() {
         <div className="mt-16 text-center">
           <p className="text-gray-400 text-sm">
             Todos los planes incluyen acceso a instalaciones y zonas de entrenamiento.{" "}
-            <a href="#contact" className="text-orange-400 hover:underline">
+            <a href="#contact" className="text-[#FFC700] hover:underline">
               Contáctanos
             </a>{" "}
             para planes corporativos o grupales.
