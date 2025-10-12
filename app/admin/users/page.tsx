@@ -12,6 +12,7 @@ interface User {
   role: string;
   createdAt: string;
   subscription: {
+    id: string;
     status: string;
     plan: string;
     endDate: string;
@@ -96,7 +97,8 @@ export default function AdminUsersPage() {
       .then((data) => setCurrentUserRole(data.role))
       .catch(console.error);
 
-    fetchUsers(1, search);
+    fetchUsers(1, "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -266,6 +268,59 @@ export default function AdminUsersPage() {
     }
   };
 
+  const handleDeleteSubscription = async (subscriptionId: string, userId: string) => {
+    if (!confirm("¿Estás seguro de eliminar esta suscripción? Esta acción no se puede deshacer.")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/subscriptions/${subscriptionId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Error al eliminar suscripción");
+      }
+
+      alert("Suscripción eliminada exitosamente");
+      fetchUsers(pagination.page, search);
+    } catch (error: any) {
+      console.error("Error deleting subscription:", error);
+      alert(error.message || "Error al eliminar suscripción");
+    }
+  };
+
+  const handleDeleteOrder = async (orderId: string) => {
+    if (!confirm("¿Estás seguro de eliminar esta orden? Esta acción no se puede deshacer.")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/orders/${orderId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Error al eliminar orden");
+      }
+
+      alert("Orden eliminada exitosamente");
+
+      // Refresh orders if modal is open
+      if (selectedUser) {
+        handleViewOrders(selectedUser);
+      }
+
+      // Refresh users list
+      fetchUsers(pagination.page, search);
+    } catch (error: any) {
+      console.error("Error deleting order:", error);
+      alert(error.message || "Error al eliminar orden");
+    }
+  };
+
   return (
     <AdminLayout adminName="Admin">
       <div className="mb-8">
@@ -315,6 +370,7 @@ export default function AdminUsersPage() {
             onEdit={handleEdit}
             onDelete={handleDelete}
             onViewOrders={handleViewOrders}
+            onDeleteSubscription={handleDeleteSubscription}
             currentUserRole={currentUserRole}
           />
 
@@ -410,25 +466,48 @@ export default function AdminUsersPage() {
                           })}
                         </p>
                       </div>
-                      <div className="text-right">
-                        <p className="text-white font-bold text-xl">
-                          ${order.amount.toFixed(2)}
-                        </p>
-                        <span
-                          className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
-                            order.status === "approved"
-                              ? "bg-green-500/20 text-green-400"
+                      <div className="flex items-center gap-3">
+                        <div className="text-right">
+                          <p className="text-white font-bold text-xl">
+                            ${order.amount.toFixed(2)}
+                          </p>
+                          <span
+                            className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
+                              order.status === "approved"
+                                ? "bg-green-500/20 text-green-400"
+                                : order.status === "pending"
+                                ? "bg-yellow-500/20 text-yellow-400"
+                                : "bg-red-500/20 text-red-400"
+                            }`}
+                          >
+                            {order.status === "approved"
+                              ? "Aprobado"
                               : order.status === "pending"
-                              ? "bg-yellow-500/20 text-yellow-400"
-                              : "bg-red-500/20 text-red-400"
-                          }`}
-                        >
-                          {order.status === "approved"
-                            ? "Aprobado"
-                            : order.status === "pending"
-                            ? "Pendiente"
-                            : "Rechazado"}
-                        </span>
+                              ? "Pendiente"
+                              : "Rechazado"}
+                          </span>
+                        </div>
+                        {currentUserRole === "root" && (
+                          <button
+                            onClick={() => handleDeleteOrder(order.id)}
+                            className="text-red-400 hover:text-red-300 transition-colors p-2"
+                            title="Eliminar orden (ROOT)"
+                          >
+                            <svg
+                              className="w-5 h-5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
+                            </svg>
+                          </button>
+                        )}
                       </div>
                     </div>
 
@@ -563,7 +642,7 @@ export default function AdminUsersPage() {
                   onChange={(e) =>
                     setCreateFormData({ ...createFormData, role: e.target.value })
                   }
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#FFC700]"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#FFC700] [&>option]:bg-gray-800 [&>option]:text-white"
                 >
                   <option value="user">Usuario</option>
                   <option value="admin">Administrador</option>
@@ -624,7 +703,7 @@ export default function AdminUsersPage() {
                   onChange={(e) =>
                     setOrderFormData({ ...orderFormData, planId: e.target.value })
                   }
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#FFC700]"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#FFC700] [&>option]:bg-gray-800 [&>option]:text-white"
                 >
                   <option value="diario">Diario - $3.00</option>
                   <option value="semanal">Semanal - $11.99</option>
@@ -642,7 +721,7 @@ export default function AdminUsersPage() {
                   onChange={(e) =>
                     setOrderFormData({ ...orderFormData, paymentMethod: e.target.value })
                   }
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#FFC700]"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#FFC700] [&>option]:bg-gray-800 [&>option]:text-white"
                 >
                   <option value="admin-created">Creado por Admin</option>
                   <option value="cash">Efectivo</option>

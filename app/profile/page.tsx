@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import Navbar from "@/components/Navbar";
+import Link from "next/link";
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
@@ -94,12 +95,12 @@ export default async function ProfilePage() {
                   <h2 className="text-xl font-bold text-white">
                     Órdenes Recientes
                   </h2>
-                  <a
+                  <Link
                     href="/orders"
                     className="text-sm text-[#FFC700] hover:underline"
                   >
                     Ver todas →
-                  </a>
+                  </Link>
                 </div>
                 {user.paymentOrders.length === 0 ? (
                   <p className="text-gray-500 text-center py-4">
@@ -198,12 +199,12 @@ export default async function ProfilePage() {
                       </div>
                     </div>
 
-                    <a
+                    <Link
                       href="/select-plan"
                       className="block w-full text-center bg-[#FFC700] text-black px-6 py-3 rounded-lg font-bold hover:bg-[#FFD700] transition-all mt-4"
                     >
                       Renovar Plan
-                    </a>
+                    </Link>
                   </div>
                 ) : (
                   <div className="text-center py-6">
@@ -211,12 +212,12 @@ export default async function ProfilePage() {
                     <p className="text-gray-400 mb-6">
                       No tienes una suscripción activa
                     </p>
-                    <a
+                    <Link
                       href="/select-plan"
                       className="block w-full text-center bg-[#FFC700] text-black px-6 py-3 rounded-lg font-bold hover:bg-[#FFD700] transition-all"
                     >
                       Elegir Plan
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>
@@ -227,24 +228,24 @@ export default async function ProfilePage() {
                   Acciones Rápidas
                 </h3>
                 <div className="space-y-2">
-                  <a
+                  <Link
                     href="/orders"
                     className="block px-4 py-3 bg-white/5 rounded-lg text-white hover:bg-white/10 transition-all"
                   >
                     📋 Ver Mis Órdenes
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/select-plan"
                     className="block px-4 py-3 bg-white/5 rounded-lg text-white hover:bg-white/10 transition-all"
                   >
                     💳 Planes y Precios
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/"
                     className="block px-4 py-3 bg-white/5 rounded-lg text-white hover:bg-white/10 transition-all"
                   >
                     🏠 Ir al Inicio
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

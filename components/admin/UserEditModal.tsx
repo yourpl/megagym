@@ -86,7 +86,7 @@ export default function UserEditModal({
               onChange={(e) =>
                 setFormData({ ...formData, role: e.target.value })
               }
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#FFC700] focus:border-transparent"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#FFC700] focus:border-transparent [&>option]:bg-gray-800 [&>option]:text-white"
             >
               <option value="user">Usuario</option>
               <option value="admin">Admin</option>
