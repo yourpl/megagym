@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useSession, signOut } from "next-auth/react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session, status } = useSession();
 
   return (
     <nav className="fixed top-0 w-full z-50 border-b border-[#FFC700]/20 bg-black/90 backdrop-blur-sm">
@@ -30,12 +32,38 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-4">
-            <button className="hidden md:block text-sm text-gray-300 hover:text-[#FFC700] transition-colors">
-              Sign In
-            </button>
-            <button className="hidden md:block bg-[#FFC700] text-black px-6 py-2 text-sm font-bold hover:bg-[#FFD700] transition-all">
-              Get Started
-            </button>
+            {status === "loading" ? (
+              <div className="hidden md:block w-20 h-10 bg-white/10 animate-pulse rounded"></div>
+            ) : session ? (
+              <>
+                <div className="hidden md:flex items-center gap-3">
+                  <span className="text-sm text-gray-300">
+                    Hola, {session.user?.name?.split(" ")[0]}
+                  </span>
+                  <button
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="text-sm text-gray-300 hover:text-[#FFC700] transition-colors"
+                  >
+                    Cerrar Sesión
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/auth/signin"
+                  className="hidden md:block text-sm text-gray-300 hover:text-[#FFC700] transition-colors"
+                >
+                  Iniciar Sesión
+                </Link>
+                <Link
+                  href="/auth/signup"
+                  className="hidden md:block bg-[#FFC700] text-black px-6 py-2 text-sm font-bold hover:bg-[#FFD700] transition-all rounded-md"
+                >
+                  Comenzar
+                </Link>
+              </>
+            )}
 
             {/* Mobile menu button */}
             <button
@@ -86,12 +114,36 @@ export default function Navbar() {
               Contact
             </Link>
             <div className="pt-4 space-y-3 border-t border-[#FFC700]/20">
-              <button className="block w-full text-left text-sm text-gray-300 hover:text-[#FFC700] transition-colors">
-                Sign In
-              </button>
-              <button className="block w-full bg-[#FFC700] text-black px-6 py-2 text-sm font-bold hover:bg-[#FFD700] transition-all">
-                Get Started
-              </button>
+              {session ? (
+                <>
+                  <div className="text-sm text-gray-300 mb-2">
+                    Hola, {session.user?.name?.split(" ")[0]}
+                  </div>
+                  <button
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="block w-full text-left text-sm text-gray-300 hover:text-[#FFC700] transition-colors"
+                  >
+                    Cerrar Sesión
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/auth/signin"
+                    className="block w-full text-left text-sm text-gray-300 hover:text-[#FFC700] transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Iniciar Sesión
+                  </Link>
+                  <Link
+                    href="/auth/signup"
+                    className="block w-full bg-[#FFC700] text-black px-6 py-2 text-sm font-bold hover:bg-[#FFD700] transition-all rounded-md text-center"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Comenzar
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         )}

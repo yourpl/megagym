@@ -1,7 +1,4 @@
 import { NextAuthOptions, getServerSession } from "next-auth"
-import GoogleProvider from "next-auth/providers/google"
-import FacebookProvider from "next-auth/providers/facebook"
-import AppleProvider from "next-auth/providers/apple"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { prisma } from "@/lib/prisma"
@@ -10,18 +7,6 @@ import bcrypt from "bcryptjs"
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-    }),
-    FacebookProvider({
-      clientId: process.env.FACEBOOK_CLIENT_ID || "",
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET || "",
-    }),
-    AppleProvider({
-      clientId: process.env.APPLE_CLIENT_ID || "",
-      clientSecret: process.env.APPLE_CLIENT_SECRET || "",
-    }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -68,11 +53,26 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id
       }
+
+      // Check if user has active subscription
+      if (token.id) {
+        const userWithSubscription = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          include: { subscription: true },
+        })
+
+        token.hasSubscription = !!(
+          userWithSubscription?.subscription?.status === "active" &&
+          new Date(userWithSubscription.subscription.endDate) > new Date()
+        )
+      }
+
       return token
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string
+        session.user.hasSubscription = token.hasSubscription as boolean
       }
       return session
     }

@@ -6,7 +6,11 @@
       "Bash(npx tailwindcss init:*)",
       "Bash(npm uninstall:*)",
       "Bash(npm cache clean:*)",
-      "Bash(npx prisma:*)"
+      "Bash(npx prisma:*)",
+      "Bash(del \"c:\\Users\\kexth\\Documents\\proyects\\megagym\\app\\auth\\signup\\page.tsx\")",
+      "Bash(npm run dev:*)",
+      "Bash(npx tsx:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

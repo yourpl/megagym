@@ -43,8 +43,42 @@ model User {
   password      String?
   accounts      Account[]
   sessions      Session[]
+  subscription  Subscription?
+  paymentOrders PaymentOrder[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+}
+
+model Subscription {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan      String   // "semanal", "quincenal", "mensual"
+  status    String   // "active", "cancelled", "expired"
+  startDate DateTime @default(now())
+  endDate   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PaymentOrder {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan            String   // "semanal", "quincenal", "mensual"
+  amount          Float
+  status          String   // "pending", "approved", "rejected"
+  paymentMethod   String   // "transfer", "paypal", "cash", "other"
+  reference       String?  // Reference number for transfers
+  proofUrl        String?  // URL to payment proof/receipt
+  customerName    String
+  customerEmail   String
+  customerPhone   String
+  notes           String?
+  reviewedBy      String?  // Admin who reviewed
+  reviewedAt      DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model VerificationToken {
