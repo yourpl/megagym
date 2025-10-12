@@ -10,6 +10,10 @@ interface User {
     plan: string;
     endDate: string;
   } | null;
+  lastPayment: {
+    amount: number;
+    status: string;
+  } | null;
   totalOrders: number;
 }
 
