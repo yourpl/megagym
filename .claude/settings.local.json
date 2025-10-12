@@ -10,7 +10,8 @@
       "Bash(del \"c:\\Users\\kexth\\Documents\\proyects\\megagym\\app\\auth\\signup\\page.tsx\")",
       "Bash(npm run dev:*)",
       "Bash(npx tsx:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(del \"c:\\Users\\kexth\\Documents\\proyects\\megagym\\app\\api\\subscription\\activate\\route.ts\")"
     ],
     "deny": [],
     "ask": []

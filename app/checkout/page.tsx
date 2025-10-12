@@ -1,11 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 
 const plans = [
+  {
+    id: "diario",
+    name: "PLAN DIARIO",
+    price: 3.00,
+    duration: "día",
+  },
   {
     id: "semanal",
     name: "PLAN SEMANAL",
@@ -30,9 +36,19 @@ const plans = [
 export default function CheckoutPage() {
   const { data: session } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [step, setStep] = useState(1);
   const [selectedPlan, setSelectedPlan] = useState("quincenal");
+
+  // Get plan from URL if present
+  useEffect(() => {
+    const planFromUrl = searchParams.get("plan");
+    if (planFromUrl && plans.find((p) => p.id === planFromUrl)) {
+      setSelectedPlan(planFromUrl);
+      setStep(2); // Skip plan selection if coming from select-plan page
+    }
+  }, [searchParams]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -157,7 +173,7 @@ export default function CheckoutPage() {
               <h2 className="text-2xl font-bold text-white text-center mb-6">
                 Selecciona tu Plan
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {plans.map((plan) => (
                   <div
                     key={plan.id}

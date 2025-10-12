@@ -10,26 +10,46 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  // Allow access to auth pages, API routes, checkout and pricing
-  if (
-    pathname.startsWith("/auth") ||
-    pathname.startsWith("/api") ||
-    pathname.startsWith("/_next") ||
-    pathname.startsWith("/checkout") ||
-    pathname.startsWith("/select-plan") ||
-    pathname.startsWith("/orders") ||
-    pathname.startsWith("/pricing")
-  ) {
+  // Public routes that don't need any checks
+  const publicRoutes = [
+    "/auth",
+    "/api",
+    "/_next",
+    "/checkout",
+    "/select-plan",
+    "/orders",
+    "/pricing",
+    "/admin",
+    "/", // Home is public
+  ];
+
+  // Check if current path is public
+  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
+
+  if (isPublicRoute) {
     return NextResponse.next();
   }
 
-  // If user is logged in, check if they have an active subscription
-  if (token) {
-    const hasSubscription = token.hasSubscription as boolean;
+  // Protected routes require authentication AND active subscription
+  const protectedRoutes = [
+    "/dashboard",
+    "/profile",
+    "/classes",
+    "/schedule",
+  ];
 
-    // If no subscription, redirect to checkout
-    if (!hasSubscription && pathname === "/") {
-      return NextResponse.redirect(new URL("/checkout", request.url));
+  const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
+
+  if (isProtectedRoute) {
+    // If not logged in, redirect to signin
+    if (!token) {
+      return NextResponse.redirect(new URL("/auth/signin", request.url));
+    }
+
+    // If logged in but no subscription, redirect to checkout
+    const hasSubscription = token.hasSubscription as boolean;
+    if (!hasSubscription) {
+      return NextResponse.redirect(new URL("/select-plan", request.url));
     }
   }
 

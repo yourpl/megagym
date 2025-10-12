@@ -1,4 +1,30 @@
+"use client";
+
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 export default function Hero() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  const handleStartTraining = () => {
+    if (status === "authenticated") {
+      // If logged in, go to profile/dashboard
+      router.push("/profile");
+    } else {
+      // If not logged in, go to signup
+      router.push("/auth/signup");
+    }
+  };
+
+  const handleViewFacilities = () => {
+    // Scroll to facilities section or navigate to facilities page
+    const facilitiesSection = document.getElementById("facilities");
+    if (facilitiesSection) {
+      facilitiesSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="min-h-screen flex items-center justify-center px-6 pt-20">
       <div className="max-w-6xl mx-auto">
@@ -13,10 +39,16 @@ export default function Hero() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 mb-24">
-          <button className="bg-white text-black px-8 py-4 text-sm font-medium hover:bg-gray-200 transition-colors">
-            Start Training
+          <button
+            onClick={handleStartTraining}
+            className="bg-white text-black px-8 py-4 text-sm font-medium hover:bg-gray-200 transition-colors"
+          >
+            {status === "authenticated" ? "Go to Profile" : "Start Training"}
           </button>
-          <button className="border border-white/20 text-white px-8 py-4 text-sm font-medium hover:bg-white/5 transition-colors">
+          <button
+            onClick={handleViewFacilities}
+            className="border border-white/20 text-white px-8 py-4 text-sm font-medium hover:bg-white/5 transition-colors"
+          >
             View Facilities
           </button>
         </div>

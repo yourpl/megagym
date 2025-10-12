@@ -41,6 +41,7 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
+  role          String    @default("user") // "user", "admin", or "root"
   accounts      Account[]
   sessions      Session[]
   subscription  Subscription?

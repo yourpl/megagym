@@ -6,6 +6,22 @@ import { useRouter } from "next/navigation";
 
 const plans = [
   {
+    id: "diario",
+    name: "PLAN DIARIO",
+    price: 3.00,
+    duration: "día",
+    days: 1,
+    features: [
+      { text: "Zona de cardio", included: true },
+      { text: "Zona de peso libre", included: true },
+      { text: "Zona funcional", included: true },
+      { text: "Clase de zumba", included: false },
+      { text: "Clase de aeróbicos", included: false },
+      { text: "Invita un amigo todos los viernes gratis", included: false },
+      { text: "Evaluación médica inicial", included: false },
+    ],
+  },
+  {
     id: "semanal",
     name: "PLAN SEMANAL",
     price: 11.99,
@@ -63,37 +79,14 @@ export default function SelectPlanPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSelectPlan = async (planId: string) => {
+  const handleSelectPlan = (planId: string) => {
     if (!session?.user?.id) {
       router.push("/auth/signin");
       return;
     }
 
-    setLoading(true);
-    setError("");
-
-    try {
-      const response = await fetch("/api/subscription/activate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ planId }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Error al activar la suscripción");
-      }
-
-      // Redirect to success page
-      router.push("/select-plan/success");
-      router.refresh();
-    } catch (err: any) {
-      setError(err.message || "Ocurrió un error");
-      setLoading(false);
-    }
+    // Redirect to checkout with selected plan
+    router.push(`/checkout?plan=${planId}`);
   };
 
   return (
@@ -114,7 +107,7 @@ export default function SelectPlanPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {plans.map((plan) => (
             <div
               key={plan.id}

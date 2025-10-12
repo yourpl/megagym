@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 const PLAN_PRICES = {
+  diario: 3.00,
   semanal: 11.99,
   quincenal: 19.99,
   mensual: 37.99,
@@ -28,6 +29,18 @@ export async function POST(request: Request) {
     }
 
     const amount = PLAN_PRICES[planId as PlanType];
+
+    // Verify user exists
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { message: "Usuario no encontrado. Por favor, inicia sesión nuevamente." },
+        { status: 404 }
+      );
+    }
 
     // Create payment order
     const order = await prisma.paymentOrder.create({
