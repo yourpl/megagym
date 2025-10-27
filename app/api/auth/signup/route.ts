@@ -36,12 +36,25 @@ export async function POST(request: Request) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
+    // Get the "user" role
+    const userRole = await prisma.role.findUnique({
+      where: { name: "user" },
+    });
+
+    if (!userRole) {
+      return NextResponse.json(
+        { message: "Error de configuración del sistema" },
+        { status: 500 }
+      );
+    }
+
     // Create user
     const user = await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
+        roleId: userRole.id,
       },
     });
 
