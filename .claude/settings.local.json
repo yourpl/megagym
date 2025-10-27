@@ -20,7 +20,9 @@
       "Bash(taskkill:*)",
       "Bash(cmd.exe /c \"taskkill /F /IM node.exe\")",
       "Bash(timeout:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(cmd.exe /c \"taskkill /F /IM node.exe /T 2>nul & timeout /t 2 /nobreak >nul & echo Procesos terminados\")",
+      "Bash(powershell -Command:*)"
     ],
     "deny": [],
     "ask": []

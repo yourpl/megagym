@@ -5,13 +5,12 @@ export default function Pricing() {
       price: "11.99",
       period: "semana",
       features: [
-        { text: "Zona de cardio", included: true },
-        { text: "Zona de peso libre", included: true },
-        { text: "Zona funcional", included: true },
-        { text: "Clase de zumba", included: false },
-        { text: "Clase de aeróbicos", included: false },
-        { text: "Invita un amigo todos los viernes gratis", included: false },
-        { text: "Evaluación médica inicial", included: false },
+        { text: "ZONA DE CARDIO", included: true },
+        { text: "ZONA DE PESO LIBRE", included: true },
+        { text: "ZONA FUNCIONAL", included: true },
+        { text: "CLASES DEDICADAS", included: true },
+        { text: "INVITA UN AMIGO\nTODOS LOS VIERNES\nGRATIS", included: false },
+        { text: "EVALUACIÓN MÉDICA\nINICIAL", included: false },
       ],
     },
     {
@@ -19,13 +18,12 @@ export default function Pricing() {
       price: "19.99",
       period: "quincena",
       features: [
-        { text: "Zona de cardio", included: true },
-        { text: "Zona de peso libre", included: true },
-        { text: "Zona funcional", included: true },
-        { text: "Clase de zumba", included: true },
-        { text: "Clase de aeróbicos", included: true },
-        { text: "Invita un amigo todos los viernes gratis", included: true },
-        { text: "Evaluación médica inicial", included: false },
+        { text: "ZONA DE CARDIO", included: true },
+        { text: "ZONA DE PESO LIBRE", included: true },
+        { text: "ZONA FUNCIONAL", included: true },
+        { text: "CLASES DEDICADAS", included: true },
+        { text: "INVITA UN AMIGO\nTODOS LOS VIERNES\nGRATIS", included: true },
+        { text: "EVALUACIÓN MÉDICA\nINICIAL", included: false },
       ],
       popular: true,
     },
@@ -34,83 +32,66 @@ export default function Pricing() {
       price: "37.99",
       period: "mes",
       features: [
-        { text: "Zona de cardio", included: true },
-        { text: "Zona de peso libre", included: true },
-        { text: "Zona funcional", included: true },
-        { text: "Clase de zumba", included: true },
-        { text: "Clase de aeróbicos", included: true },
-        { text: "Invita un amigo todos los viernes gratis", included: true },
-        { text: "Evaluación médica inicial", included: true },
+        { text: "ZONA DE CARDIO", included: true },
+        { text: "ZONA DE PESO LIBRE", included: true },
+        { text: "ZONA FUNCIONAL", included: true },
+        { text: "CLASES DEDICADAS", included: true },
+        { text: "INVITA UN AMIGO\nTODOS LOS VIERNES\nGRATIS", included: true },
+        { text: "EVALUACIÓN MÉDICA\nINICIAL", included: true },
       ],
     },
   ];
 
   return (
-    <section id="pricing" className="min-h-screen flex items-center justify-center px-6 py-24 border-t border-white/10">
+    <section id="pricing" className="min-h-screen flex items-center justify-center px-6 py-24 border-t border-white/10 bg-gradient-to-br from-black via-gray-900 to-black">
       <div className="max-w-7xl mx-auto w-full">
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
-            MEGA PLANES
+          <h2 className="text-3xl md:text-4xl font-bold mb-2">
+            <span className="text-[#FFC700]">INSCRIPCIÓN</span>
           </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Elige el plan que mejor se adapte a tus objetivos de entrenamiento
-          </p>
+          <h1 className="text-6xl md:text-8xl font-black text-[#FFC700] mb-4 tracking-tight">
+            GRATIS
+          </h1>
+          <h3 className="text-4xl md:text-5xl font-bold text-white tracking-wide">
+            MEGA PLANES
+          </h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {plans.map((plan) => (
             <div
               key={plan.name}
-              className={`border ${
-                plan.popular ? "border-[#FFC700]" : "border-white/10"
-              } bg-gradient-to-b from-white/5 to-transparent rounded-lg overflow-hidden relative`}
+              className="bg-white rounded-3xl overflow-hidden shadow-2xl transform transition-transform hover:scale-105"
             >
-              <div className="bg-[#FFC700] p-6">
-                <h3 className="text-2xl font-bold text-black uppercase tracking-wide">{plan.name}</h3>
+              <div className="bg-gradient-to-r from-[#FFC700] to-[#FFB400] p-6">
+                <h3 className="text-2xl font-black text-black uppercase tracking-wide text-center">{plan.name}</h3>
               </div>
 
-              {plan.popular && (
-                <div className="absolute top-2 right-2 bg-white text-black text-xs font-bold px-3 py-1 uppercase tracking-wider rounded-full">
-                  Popular
-                </div>
-              )}
-
-              <div className="p-8">
-                <ul className="space-y-4 mb-8">
+              <div className="p-8 bg-gray-100">
+                <ul className="space-y-3 mb-8">
                   {plan.features.map((feature, index) => (
                     <li key={index} className="flex items-start gap-3">
                       {feature.included ? (
-                        <svg className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-7 h-7 text-[#7CC042] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                       ) : (
-                        <svg className="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-7 h-7 text-red-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
                         </svg>
                       )}
-                      <span className={`text-sm ${feature.included ? 'text-white' : 'text-gray-500'} uppercase`}>
+                      <span className="text-sm font-bold text-black leading-tight whitespace-pre-line">
                         {feature.text}
                       </span>
                     </li>
                   ))}
                 </ul>
 
-                <div className="text-center mb-6">
-                  <div className="flex items-baseline justify-center">
-                    <span className="text-5xl font-bold text-white">${plan.price}</span>
+                <div className="text-center">
+                  <div className="flex items-baseline justify-center mb-2">
+                    <span className="text-6xl font-black text-black">${plan.price}</span>
                   </div>
-                  <p className="text-gray-400 text-sm mt-2">por {plan.period}</p>
                 </div>
-
-                <button
-                  className={`w-full py-4 text-sm font-bold uppercase tracking-wide transition-colors rounded-md ${
-                    plan.popular
-                      ? "bg-[#FFC700] text-black hover:bg-[#FFD700]"
-                      : "border-2 border-[#FFC700] text-[#FFC700] hover:bg-[#FFC700] hover:text-black"
-                  }`}
-                >
-                  Comenzar
-                </button>
               </div>
             </div>
           ))}
