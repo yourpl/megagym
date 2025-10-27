@@ -59,9 +59,6 @@ export default function UserTable({ users, onEdit, onDelete, onViewOrders, onDel
                 Días Disponibles
               </th>
               <th className="text-left py-4 px-6 text-gray-400 font-medium">
-                Órdenes
-              </th>
-              <th className="text-left py-4 px-6 text-gray-400 font-medium">
                 Fecha Registro
               </th>
               <th className="text-left py-4 px-6 text-gray-400 font-medium">
@@ -158,7 +155,6 @@ export default function UserTable({ users, onEdit, onDelete, onViewOrders, onDel
                     <span className="text-gray-500 text-sm">-</span>
                   )}
                 </td>
-                <td className="py-4 px-6 text-gray-300">{user.totalOrders}</td>
                 <td className="py-4 px-6 text-gray-400">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
@@ -192,7 +188,7 @@ export default function UserTable({ users, onEdit, onDelete, onViewOrders, onDel
             ))}
             {users.length === 0 && (
               <tr>
-                <td colSpan={8} className="py-12 px-6 text-center text-gray-500">
+                <td colSpan={7} className="py-12 px-6 text-center text-gray-500">
                   No se encontraron usuarios
                 </td>
               </tr>
