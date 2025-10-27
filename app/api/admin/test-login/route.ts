@@ -9,6 +9,7 @@ export async function GET() {
 
     const user = await prisma.user.findUnique({
       where: { email },
+      include: { role: true },
     });
 
     if (!user) {
@@ -22,10 +23,10 @@ export async function GET() {
     return NextResponse.json({
       userFound: true,
       email: user.email,
-      role: user.role,
+      role: user.role.name,
       hasPassword: !!user.password,
       passwordValid: isPasswordValid,
-      isAdmin: user.role === "admin",
+      isAdmin: user.role.name === "admin",
     });
   } catch (error: any) {
     return NextResponse.json({
