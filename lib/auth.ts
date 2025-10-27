@@ -40,7 +40,11 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid credentials")
         }
 
-        return user
+        // Return user with role as string for NextAuth compatibility
+        return {
+          ...user,
+          role: user.role.name
+        } as any
       }
     })
   ],
