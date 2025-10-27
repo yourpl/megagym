@@ -121,12 +121,12 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { name, email, password, role } = await request.json();
+    const { name, email, password, sex, age, role } = await request.json();
 
     // Validate required fields
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !sex || !age) {
       return NextResponse.json(
-        { message: "Nombre, email y contraseña son requeridos" },
+        { message: "Nombre, email, contraseña, sexo y edad son requeridos" },
         { status: 400 }
       );
     }
@@ -136,6 +136,24 @@ export async function POST(request: Request) {
     if (!emailRegex.test(email)) {
       return NextResponse.json(
         { message: "Email inválido" },
+        { status: 400 }
+      );
+    }
+
+    // Validate sex
+    const validSexes = ["male", "female", "other"];
+    if (!validSexes.includes(sex)) {
+      return NextResponse.json(
+        { message: "Sexo inválido" },
+        { status: 400 }
+      );
+    }
+
+    // Validate age
+    const ageNumber = parseInt(age);
+    if (isNaN(ageNumber) || ageNumber < 1 || ageNumber > 120) {
+      return NextResponse.json(
+        { message: "Edad inválida (debe estar entre 1 y 120)" },
         { status: 400 }
       );
     }
@@ -183,6 +201,8 @@ export async function POST(request: Request) {
         name,
         email,
         password: hashedPassword,
+        sex,
+        age: ageNumber,
         roleId: roleRecord.id,
       },
       include: {

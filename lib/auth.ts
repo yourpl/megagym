@@ -21,6 +21,9 @@ export const authOptions: NextAuthOptions = {
         const user = await prisma.user.findUnique({
           where: {
             email: credentials.email
+          },
+          include: {
+            role: true
           }
         })
 
@@ -52,19 +55,27 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
+        token.role = (user as any).role?.name || 'user'
       }
 
       // Check if user has active subscription
       if (token.id) {
         const userWithSubscription = await prisma.user.findUnique({
           where: { id: token.id as string },
-          include: { subscription: true },
+          include: {
+            subscription: true,
+            role: true
+          },
         })
 
         token.hasSubscription = !!(
           userWithSubscription?.subscription?.status === "active" &&
           new Date(userWithSubscription.subscription.endDate) > new Date()
         )
+
+        if (userWithSubscription?.role) {
+          token.role = userWithSubscription.role.name
+        }
       }
 
       return token
@@ -73,6 +84,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string
         session.user.hasSubscription = token.hasSubscription as boolean
+        session.user.role = token.role as string
       }
       return session
     }

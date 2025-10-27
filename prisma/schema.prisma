@@ -50,6 +50,8 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
+  sex           String?   // "male", "female", "other"
+  age           Int?
   roleId        String
   role          Role      @relation(fields: [roleId], references: [id], onDelete: Restrict)
   accounts      Account[]

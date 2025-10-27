@@ -8,12 +8,14 @@ declare module "next-auth" {
       email?: string | null
       image?: string | null
       hasSubscription?: boolean
+      role?: string
     }
   }
 
   interface User {
     id: string
     hasSubscription?: boolean
+    role?: string
   }
 }
 
@@ -21,5 +23,6 @@ declare module "next-auth/jwt" {
   interface JWT {
     id: string
     hasSubscription?: boolean
+    role?: string
   }
 }

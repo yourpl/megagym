@@ -52,13 +52,15 @@ export default function AdminUsersPage() {
     name: "",
     email: "",
     password: "",
+    sex: "",
+    age: "",
     role: "user",
   });
   const [isCreating, setIsCreating] = useState(false);
   const [isCreateOrderModalOpen, setIsCreateOrderModalOpen] = useState(false);
   const [orderFormData, setOrderFormData] = useState({
     planId: "semanal",
-    paymentMethod: "admin-created",
+    paymentMethod: "",
     reference: "",
     notes: "",
     autoApprove: true,
@@ -208,6 +210,8 @@ export default function AdminUsersPage() {
         name: "",
         email: "",
         password: "",
+        sex: "",
+        age: "",
         role: "user",
       });
       fetchUsers(pagination.page, search);
@@ -247,7 +251,7 @@ export default function AdminUsersPage() {
       setIsCreateOrderModalOpen(false);
       setOrderFormData({
         planId: "semanal",
-        paymentMethod: "admin-created",
+        paymentMethod: "",
         reference: "",
         notes: "",
         autoApprove: true,
@@ -635,6 +639,43 @@ export default function AdminUsersPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Sexo *
+                </label>
+                <select
+                  required
+                  value={createFormData.sex}
+                  onChange={(e) =>
+                    setCreateFormData({ ...createFormData, sex: e.target.value })
+                  }
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#FFC700] [&>option]:bg-gray-800 [&>option]:text-white"
+                >
+                  <option value="" disabled>Seleccionar sexo</option>
+                  <option value="male">Masculino</option>
+                  <option value="female">Femenino</option>
+                  <option value="other">Otro</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Edad *
+                </label>
+                <input
+                  type="number"
+                  required
+                  min="1"
+                  max="120"
+                  value={createFormData.age}
+                  onChange={(e) =>
+                    setCreateFormData({ ...createFormData, age: e.target.value })
+                  }
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FFC700]"
+                  placeholder="Edad"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Rol
                 </label>
                 <select
@@ -723,7 +764,7 @@ export default function AdminUsersPage() {
                   }
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#FFC700] [&>option]:bg-gray-800 [&>option]:text-white"
                 >
-                  <option value="admin-created">Creado por Admin</option>
+                  <option value="" disabled>Seleccionar metodo</option>
                   <option value="cash">Efectivo</option>
                   <option value="transfer">Transferencia</option>
                   <option value="paypal">PayPal</option>
