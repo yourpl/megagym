@@ -75,6 +75,7 @@ export async function GET(
     const user = await prisma.user.findUnique({
       where: { id },
       include: {
+        role: true,
         subscription: true,
         paymentOrders: {
           orderBy: { createdAt: "desc" },
@@ -93,7 +94,7 @@ export async function GET(
       id: user.id,
       name: user.name,
       email: user.email,
-      role: user.role,
+      role: user.role.name,
       emailVerified: user.emailVerified,
       image: user.image,
       createdAt: user.createdAt,
@@ -126,7 +127,17 @@ export async function PATCH(
     const data = await request.json();
 
     // Don't allow updating certain fields directly
-    const { id: _, createdAt, updatedAt, ...updateData } = data;
+    const { id: _, createdAt, updatedAt, role, ...updateData } = data;
+
+    // If role is being updated, get the role ID
+    if (role) {
+      const roleRecord = await prisma.role.findUnique({
+        where: { name: role },
+      });
+      if (roleRecord) {
+        updateData.roleId = roleRecord.id;
+      }
+    }
 
     // If password is being updated, hash it
     if (updateData.password) {
@@ -136,6 +147,7 @@ export async function PATCH(
     const user = await prisma.user.update({
       where: { id },
       data: updateData,
+      include: { role: true },
     });
 
     return NextResponse.json({
@@ -144,7 +156,7 @@ export async function PATCH(
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role,
+        role: user.role.name,
       },
     });
   } catch (error: any) {

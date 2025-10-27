@@ -21,7 +21,7 @@ async function verifyAdmin() {
       role: string;
     };
 
-    if (decoded.role !== "admin") {
+    if (decoded.role !== "admin" && decoded.role !== "root") {
       return null;
     }
 
@@ -66,6 +66,7 @@ export async function GET(request: Request) {
         take: limit,
         orderBy: { createdAt: "desc" },
         include: {
+          role: true,
           subscription: true,
           paymentOrders: {
             orderBy: { createdAt: "desc" },
@@ -86,7 +87,7 @@ export async function GET(request: Request) {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role,
+        role: user.role.name,
         createdAt: user.createdAt,
         subscription: user.subscription,
         lastPayment: user.paymentOrders[0] || null,
@@ -141,11 +142,23 @@ export async function POST(request: Request) {
 
     // Validate role
     const validRoles = ["user", "admin", "root"];
-    const userRole = role || "user";
-    if (!validRoles.includes(userRole)) {
+    const userRoleName = role || "user";
+    if (!validRoles.includes(userRoleName)) {
       return NextResponse.json(
         { message: "Rol inválido" },
         { status: 400 }
+      );
+    }
+
+    // Get role ID
+    const roleRecord = await prisma.role.findUnique({
+      where: { name: userRoleName },
+    });
+
+    if (!roleRecord) {
+      return NextResponse.json(
+        { message: "Rol no encontrado en la base de datos" },
+        { status: 500 }
       );
     }
 
@@ -170,7 +183,10 @@ export async function POST(request: Request) {
         name,
         email,
         password: hashedPassword,
-        role: userRole,
+        roleId: roleRecord.id,
+      },
+      include: {
+        role: true,
       },
     });
 
@@ -181,7 +197,7 @@ export async function POST(request: Request) {
           id: newUser.id,
           name: newUser.name,
           email: newUser.email,
-          role: newUser.role,
+          role: newUser.role.name,
           createdAt: newUser.createdAt,
         },
       },

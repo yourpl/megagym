@@ -34,6 +34,15 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Role {
+  id          String   @id @default(cuid())
+  name        String   @unique // "user", "admin", "root"
+  description String?
+  users       User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -41,13 +50,16 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
-  role          String    @default("user") // "user", "admin", or "root"
+  roleId        String
+  role          Role      @relation(fields: [roleId], references: [id], onDelete: Restrict)
   accounts      Account[]
   sessions      Session[]
   subscription  Subscription?
   paymentOrders PaymentOrder[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
+  @@index([roleId])
 }
 
 model Subscription {

@@ -20,12 +20,13 @@ export async function POST(request: Request) {
     // Find admin user
     const user = await prisma.user.findUnique({
       where: { email },
+      include: { role: true },
     });
 
-    console.log('Login attempt:', { email, userFound: !!user, role: user?.role });
+    console.log('Login attempt:', { email, userFound: !!user, role: user?.role.name });
 
-    if (!user || user.role !== "admin") {
-      console.log('Failed: User not found or not admin');
+    if (!user || (user.role.name !== "admin" && user.role.name !== "root")) {
+      console.log('Failed: User not found or not admin/root');
       return NextResponse.json(
         { message: "Credenciales inválidas" },
         { status: 401 }
@@ -58,7 +59,7 @@ export async function POST(request: Request) {
         id: user.id,
         email: user.email,
         name: user.name,
-        role: user.role,
+        role: user.role.name,
       },
       JWT_SECRET,
       { expiresIn: "8h" }
@@ -70,7 +71,7 @@ export async function POST(request: Request) {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role,
+        role: user.role.name,
       },
     });
 

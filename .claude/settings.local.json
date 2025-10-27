@@ -15,7 +15,12 @@
       "Bash(git commit -m \"$(cat <<''EOF''\nAgregado plan diario, funcionalidad de eliminación ROOT y correcciones de ESLint\n\n- Plan diario ($3.00) agregado en toda la aplicación\n- Usuarios ROOT pueden eliminar suscripciones y órdenes\n- Columna \"Días Disponibles\" en tabla de usuarios admin\n- Botones de eliminar para ROOT en tabla y modales\n- Endpoints DELETE para /api/admin/subscriptions/[id] y /api/admin/orders/[id]\n- Selectores con fondo oscuro para legibilidad\n- Funcionalidad crear usuarios y órdenes desde admin\n- Corregidos todos los errores ESLint (Links en vez de <a>)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(git push:*)",
       "Bash(npm run build)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(del \"c:\\Users\\knarvaez\\Documents\\proyects\\megagym\\scripts\\check-admin.ts\")",
+      "Bash(taskkill:*)",
+      "Bash(cmd.exe /c \"taskkill /F /IM node.exe\")",
+      "Bash(timeout:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []
