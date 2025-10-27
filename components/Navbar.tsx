@@ -41,7 +41,7 @@ export default function Navbar() {
                     Hola, {session.user?.name?.split(" ")[0]}
                   </span>
                   <button
-                    onClick={() => signOut({ callbackUrl: "/" })}
+                    onClick={() => signOut({ callbackUrl: `${window.location.origin}/` })}
                     className="text-sm text-gray-300 hover:text-[#FFC700] transition-colors"
                   >
                     Cerrar Sesión
@@ -120,7 +120,7 @@ export default function Navbar() {
                     Hola, {session.user?.name?.split(" ")[0]}
                   </div>
                   <button
-                    onClick={() => signOut({ callbackUrl: "/" })}
+                    onClick={() => signOut({ callbackUrl: `${window.location.origin}/` })}
                     className="block w-full text-left text-sm text-gray-300 hover:text-[#FFC700] transition-colors"
                   >
                     Cerrar Sesión

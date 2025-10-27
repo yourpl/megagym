@@ -652,7 +652,6 @@ export default function AdminUsersPage() {
                   <option value="" disabled>Seleccionar sexo</option>
                   <option value="male">Masculino</option>
                   <option value="female">Femenino</option>
-                  <option value="other">Otro</option>
                 </select>
               </div>
 
